@@ -3,7 +3,10 @@ import Osoba from './osoba.mjs';
 export default class Profesor extends Osoba{
   constructor(ime,prezime){
     super(ime,prezime);
-    this.listaKolegija = [];
+    this._listaKolegija = [];
+  };
+  get listaKolegija() {
+    return this._listaKolegija;
   }
   ocijeniIspit(student,kolegij) {
     return `Student ${student.ime} ${student.prezime} je ${kolegij.prolaz(student)} iz kolegija ${kolegij.imeKolegija}.`
@@ -20,5 +23,11 @@ export default class Profesor extends Osoba{
     }
     return ispis 
   };
-
+  dodajKolegij(kolegij) {
+    if(this.listaKolegija.includes(kolegij)){
+      return
+    } else {
+      this.listaKolegija.push(kolegij);
+    }
+  };
 }

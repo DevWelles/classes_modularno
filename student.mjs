@@ -16,7 +16,7 @@ export default class Student extends Osoba{
     kolegij.listaStudenata.push(this.ime + this.prezime);
   };
   ispisUpisanihKolegija() {
-    const kolegiji = this._upisaniKolegiji.map(kolegij => (" " + kolegij.imeKolegija));
+    const kolegiji = this.upisaniKolegiji.map(kolegij => (" " + kolegij.imeKolegija));
     let ispis;
     if (kolegiji.length === 0){
       ispis = "Nisam upisao nove kolegije"
@@ -26,7 +26,7 @@ export default class Student extends Osoba{
     return ispis
   };
   ispisPolozenihKolegija() {
-    let ispis = this._polozeniKolegiji.map(kolegij => (" " + kolegij.imeKolegija));
+    let ispis = this.polozeniKolegiji.map(kolegij => (" " + kolegij.imeKolegija));
     if(ispis.length === 0){
       ispis = "nisam položio ni jedan kolegij"
     } else {
@@ -38,10 +38,28 @@ export default class Student extends Osoba{
     ${this.ispisPolozenihKolegija()}.`
   };
   dodajKolegij(kolegij) {
-    this._upisaniKolegiji.push(kolegij);
+    if(this.upisaniKolegiji.includes(kolegij)){
+      return
+    } else {
+      this.upisaniKolegiji.push(kolegij);
+    }
+    kolegij.upisiStudenta(this);
   };
   dodajPolozeniKolegij (kolegij) {
-    this.polozeniKolegiji.push(kolegij);
-  }
+    if(this.polozeniKolegiji.includes(kolegij)){
+      return
+    } else {
+      this.polozeniKolegiji.push(kolegij);
+    };
+    let index = this.upisaniKolegiji.indexOf(kolegij); //da maknem kolegij iz array upisani jer je sad položen
+    if (index > -1) {
+      this.upisaniKolegiji.splice(index, 1);
+    }
+    if(kolegij.listaStudenataPolozili.includes(this)){
+      return
+    } else {
+      kolegij.listaStudenataPolozili.push(this)//this označuje instancu classe Student i nju će pushati u svoju array studenata koji su položili
+    }
+    };
   
 }
